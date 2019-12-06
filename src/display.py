@@ -11,10 +11,14 @@ import logging
 
 from time import time, sleep
 
+BACKGROUND_COLOUR = 'black'
+
 
 class Display(object):
     def __init__(self):
         self.__root = tk.Tk()
+
+        self.__root.config(background=BACKGROUND_COLOUR)
 
         self.__root.pack_propagate(0)
         self.__root.resizable(0, 0)
