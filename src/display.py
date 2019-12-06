@@ -9,7 +9,7 @@ __copyright__ = "Copyright 2019, Rhys Read"
 import tkinter as tk
 import logging
 
-from time import time, sleep
+from time import time
 
 BACKGROUND_COLOUR = 'black'
 
@@ -100,6 +100,7 @@ class Display(object):
         self.__base_time = time()
         self.__root.after(100, self.__update_timer_recurring)
         self.__root.mainloop()
+        logging.info('Times:\n' + '\n'.join([str(round(i, self.__time_rounding_value)) for i in self.__all_times]))
 
     def __update_timer_recurring(self):
         if not self.__active:
