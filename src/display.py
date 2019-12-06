@@ -106,8 +106,17 @@ class Display(object):
         if not self.__active:
             return
         self.__displayed_time = get_seconds_since_base_time(self.__base_time)
+
+        # Set displayed time for live timer
         self.__timer_label.config(text=round(self.__displayed_time,
                                              self.__time_rounding_value))
+
+        # If the current time exceeds the best time, set the best time
+        seconds_since_base_time = get_seconds_since_base_time(self.__base_time)
+        if seconds_since_base_time > self.__best_time:
+            self.__best_time_label.config(text=self.__best_time_pretext + str(round(seconds_since_base_time,
+                                                                                    self.__time_rounding_value)))
+
         self.__root.after(100, self.__update_timer_recurring)
 
     def __set_new_base_time(self):
