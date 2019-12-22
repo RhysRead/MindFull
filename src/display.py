@@ -8,8 +8,10 @@ __copyright__ = "Copyright 2019, Rhys Read"
 
 import tkinter as tk
 import logging
+import keyboard
+import threading
 
-from time import time
+from time import time, sleep
 
 BACKGROUND_COLOUR = 'black'
 
@@ -98,9 +100,15 @@ class Display(object):
     def start(self):
         self.__active = True
         self.__base_time = time()
+
+        # Starting side processes
         self.__root.after(100, self.__update_timer_recurring)
+        threading.Thread(target=self.__keypress_thread).start()
+
+        # Mainloop
         self.__root.mainloop()
         logging.info('Times:\n' + '\n'.join([str(round(i, self.__time_rounding_value)) for i in self.__all_times]))
+        self.__active = False
 
     def __update_timer_recurring(self):
         if not self.__active:
@@ -138,6 +146,13 @@ class Display(object):
                                                                                 self.__time_rounding_value)))
 
         self.__base_time = time()
+
+    def __keypress_thread(self):
+        while self.__active:
+            if keyboard.is_pressed(' '):
+                self.__set_new_base_time()
+                # sleeping to avoid one press registering as many
+                sleep(0.1)
 
 
 def get_seconds_since_base_time(base_time: float):
