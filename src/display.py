@@ -152,7 +152,7 @@ class Display(object):
             if keyboard.is_pressed(' '):
                 self.__set_new_base_time()
                 # sleeping to avoid one press registering as many
-                sleep(0.1)
+                sleep(0.7)
 
 
 def get_seconds_since_base_time(base_time: float):
